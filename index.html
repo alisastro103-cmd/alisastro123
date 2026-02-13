@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Alisastromijoyo</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Poppins', sans-serif; }
+    html, body { height: 100%; margin: 0; }
+    
+    /* Opening Animation */
+    .opening-screen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 50%, #3d7ab5 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: fadeOutOpening 0.8s ease-out 2.5s forwards;
+    }
+    
+    .opening-text {
+      color: white;
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      opacity: 0;
+      animation: textReveal 1.5s ease-out 0.3s forwards;
+    }
+    
+    .opening-text span {
+      display: inline-block;
+      animation: letterBounce 0.6s ease-out forwards;
+      opacity: 0;
+    }
+    
+    @keyframes textReveal {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes letterBounce {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOutOpening {
+      0% { opacity: 1; }
+      100% { opacity: 0; pointer-events: none; visibility: hidden; }
+    }
+    
+    /* Main Content */
+    .main-wrapper {
+      opacity: 0;
+      animation: fadeInContent 0.8s ease-out 2.8s forwards;
+    }
+    
+    @keyframes fadeInContent {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    
+    /* Card Styles */
+    .card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+    
+    /* Button Styles */
+    .btn-primary {
+      background: linear-gradient(135deg, #2d5a87 0%, #1e3a5f 100%);
+      color: white;
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #3d7ab5 0%, #2d5a87 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .btn-primary:hover::before { opacity: 1; }
+    .btn-primary span { position: relative; z-index: 1; }
+    
+    .btn-secondary {
+      background: transparent;
+      color: #2d5a87;
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-weight: 500;
+      border: 2px solid #2d5a87;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+      background: #2d5a87;
+      color: white;
+      transform: scale(1.02);
+    }
+    
+    /* Skill Circle */
+    .skill-circle {
+      position: relative;
+      width: 100px;
+      height: 100px;
+    }
+    
+    .skill-circle svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+    
+    .skill-circle circle {
+      fill: none;
+      stroke-width: 8;
+      stroke-linecap: round;
+    }
+    
+    .skill-bg { stroke: #e5e7eb; }
+    
+    .skill-progress {
+      stroke: #2d5a87;
+      stroke-dasharray: 283;
+      transition: stroke-dashoffset 1s ease;
+    }
+    
+    .skill-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #1e3a5f;
+    }
+    
+    /* Social Icons */
+    .social-btn {
+      position: relative;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      overflow: visible;
+      cursor: pointer;
+    }
+    
+    .social-btn:hover {
+      background: linear-gradient(135deg, #2d5a87 0%, #1e3a5f 100%);
+      transform: scale(1.1);
+    }
+    
+    .social-btn:hover svg { fill: white; }
+    
+    .social-btn .tooltip {
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      background: #1e3a5f;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0;
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+    
+    .social-btn:hover .tooltip {
+      opacity: 1;
+      transform: translateX(-50%) scaleX(1);
+    }
+    
+    /* Navigation */
+    .nav-fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 15px 30px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+    }
+    
+    .hamburger {
+      width: 30px;
+      height: 24px;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 3px;
+      background: #1e3a5f;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+    
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+    
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+    
+    .nav-menu {
+      position: fixed;
+      top: 60px;
+      right: -300px;
+      width: 280px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      padding: 20px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 999;
+    }
+    
+    .nav-menu.active { right: 20px; }
+    
+    .nav-item {
+      display: block;
+      padding: 14px 20px;
+      color: #374151;
+      font-weight: 500;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .nav-item:hover {
+      background: linear-gradient(135deg, #2d5a87 0%, #1e3a5f 100%);
+      color: white;
+      transform: translateX(5px);
+    }
+    
+    .nav-item.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .nav-item.disabled:hover {
+      background: transparent;
+      color: #374151;
+      transform: none;
+    }
+    
+    /* Project Page */
+    .page { display: none; }
+    .page.active { display: block; }
+    
+    .project-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+      height: 200px;
+    }
+    
+    .project-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+    
+    .project-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(30, 58, 95, 0.9) 0%, transparent 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .project-card:hover .project-overlay { opacity: 1; }
+    
+    /* Modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+    
+    .modal.active { display: flex; }
+    
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 90%;
+      overflow: auto;
+      animation: modalIn 0.3s ease;
+    }
+    
+    @keyframes modalIn {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    
+    /* Profile Photo */
+    .profile-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #2d5a87 0%, #1e3a5f 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    /* Scroll Animation */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.6s ease forwards;
+    }
+    
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-slate-100 to-gray-200"><!-- Opening Animation -->
+  <div class="opening-screen" id="opening">
+   <h1 class="opening-text" id="openingText">My Portfolio</h1>
+  </div><!-- Navigation -->
+  <nav class="nav-fixed">
+   <div class="flex items-center justify-between max-w-6xl mx-auto">
+    <div class="text-xl font-bold text-slate-800"><span class="text-blue-700">Ali</span>sastromijoyo
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span> <span></span> <span></span>
+    </div>
+   </div>
+  </nav><!-- Nav Menu -->
+  <div class="nav-menu" id="navMenu">
+   <div class="nav-item" onclick="navigateTo('home', 'about')">
+    About Me
+   </div>
+   <div class="nav-item" onclick="navigateTo('projects')">
+    My Project
+   </div>
+   <div class="nav-item" onclick="navigateTo('home', 'contact')">
+    Kontak
+   </div>
+   <div class="nav-item" onclick="navigateTo('home', 'skills')">
+    Skills
+   </div>
+   <div class="nav-item disabled">
+    Website (Belum Tersedia)
+   </div>
+  </div><!-- Main Wrapper -->
+  <div class="main-wrapper h-full overflow-auto"><!-- Home Page -->
+   <div class="page active" id="homePage">
+    <div class="pt-24 pb-12 px-4 max-w-5xl mx-auto"><!-- Card 1: About Me -->
+     <section id="about" class="card p-8 mb-8 fade-in-up">
+      <div class="flex flex-col md:flex-row gap-8 items-start"><!-- Profile Photo -->
+       <div class="profile-photo">
+        <svg width="80" height="80" viewbox="0 0 24 24" fill="white"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+        </svg>
+       </div><!-- Info -->
+       <div class="flex-1">
+        <h1 class="text-3xl font-bold text-slate-800 mb-1" id="mainName">Alisastromijoyo (Randy)</h1>
+        <p class="text-blue-600 font-medium mb-4" id="mainStatus">Pelajar (SMA)</p>
+        <p class="text-gray-600 leading-relaxed text-left mb-6" id="bioDescription">Halo ini portofolio saya. saya alisastromijoyo atau panggilan Ali atau Randy. Murid dari SMKN 02 Bombana, saya saat ini sedang fokus belajar design dan belajar network di jurusan saya. dan saya sengaja membuat website ini dan terhubung ke kartu agar lebih interatif. website ini saya akan menampilkan skill dan tentang saya secara spesifik agar lebih kenal dekat.</p><!-- Buttons -->
+        <div class="flex flex-wrap gap-4"><button class="btn-primary" onclick="navigateTo('projects')"> <span>My Project</span> </button> <button class="btn-secondary" onclick="navigateTo('home', 'contact')"> Contact Me </button>
+        </div>
+       </div>
+      </div>
+     </section><!-- Card 2: Skills -->
+     <section id="skills" class="card p-8 mb-8 fade-in-up delay-1">
+      <h2 class="text-2xl font-bold text-slate-800 mb-8 text-center">My Skills</h2>
+      <div class="flex flex-wrap justify-center gap-12"><!-- Design Skill -->
+       <div class="text-center">
+        <div class="skill-circle mb-3">
+         <svg viewbox="0 0 100 100"><circle class="skill-bg" cx="50" cy="50" r="45" /> <circle class="skill-progress" cx="50" cy="50" r="45" style="stroke-dashoffset: 104.51;" />
+         </svg>
+         <div class="skill-text">
+          63%
+         </div>
+        </div>
+        <p class="font-medium text-gray-700">Design</p>
+       </div><!-- Coding Skill -->
+       <div class="text-center">
+        <div class="skill-circle mb-3">
+         <svg viewbox="0 0 100 100"><circle class="skill-bg" cx="50" cy="50" r="45" /> <circle class="skill-progress" cx="50" cy="50" r="45" style="stroke-dashoffset: 198.1; stroke: #3d7ab5;" />
+         </svg>
+         <div class="skill-text">
+          30%
+         </div>
+        </div>
+        <p class="font-medium text-gray-700">Coding</p>
+       </div><!-- AI System Skill -->
+       <div class="text-center">
+        <div class="skill-circle mb-3">
+         <svg viewbox="0 0 100 100"><circle class="skill-bg" cx="50" cy="50" r="45" /> <circle class="skill-progress" cx="50" cy="50" r="45" style="stroke-dashoffset: 141.5; stroke: #1e3a5f;" />
+         </svg>
+         <div class="skill-text">
+          50%
+         </div>
+        </div>
+        <p class="font-medium text-gray-700">AI System</p>
+       </div>
+      </div>
+     </section><!-- Card 3: Contact -->
+     <section id="contact" class="card p-8 fade-in-up delay-2">
+      <h2 class="text-2xl font-bold text-slate-800 mb-8 text-center">Contact Me</h2>
+      <div class="flex flex-wrap justify-center gap-6"><!-- Instagram -->
+       <div class="social-btn">
+        <svg width="24" height="24" viewbox="0 0 24 24" fill="#374151"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+        </svg><span class="tooltip">Instagram</span>
+       </div><!-- Facebook -->
+       <div class="social-btn">
+        <svg width="24" height="24" viewbox="0 0 24 24" fill="#374151"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+        </svg><span class="tooltip">Facebook</span>
+       </div><!-- Discord -->
+       <div class="social-btn">
+        <svg width="24" height="24" viewbox="0 0 24 24" fill="#374151"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+        </svg><span class="tooltip">Discord</span>
+       </div><!-- WhatsApp -->
+       <div class="social-btn">
+        <svg width="24" height="24" viewbox="0 0 24 24" fill="#374151"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg><span class="tooltip">WhatsApp</span>
+       </div><!-- YouTube -->
+       <div class="social-btn">
+        <svg width="24" height="24" viewbox="0 0 24 24" fill="#374151"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+        </svg><span class="tooltip">YouTube</span>
+       </div><!-- TikTok -->
+       <div class="social-btn">
+        <svg width="24" height="24" viewbox="0 0 24 24" fill="#374151"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+        </svg><span class="tooltip">TikTok</span>
+       </div><!-- GitHub -->
+       <div class="social-btn">
+        <svg width="24" height="24" viewbox="0 0 24 24" fill="#374151"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+        </svg><span class="tooltip">GitHub</span>
+       </div>
+      </div>
+     </section>
+    </div>
+   </div><!-- Projects Page -->
+   <div class="page" id="projectsPage">
+    <div class="pt-24 pb-12 px-4 max-w-5xl mx-auto">
+     <div class="flex items-center gap-4 mb-8"><button class="btn-secondary text-sm py-2 px-4" onclick="navigateTo('home')"> ← Kembali </button>
+      <h1 class="text-3xl font-bold text-slate-800">My Projects</h1>
+     </div>
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Project 1 -->
+      <div class="project-card" onclick="openModal('project1')">
+       <div class="h-full flex items-center justify-center">
+        <svg width="60" height="60" viewbox="0 0 24 24" fill="#64748b"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 15h14v2H5zm0-4h14v2H5zm0-4h14v2H5z" />
+        </svg>
+       </div>
+       <div class="project-overlay">
+        <div>
+         <h3 class="text-white font-bold text-lg">Design Project 1</h3>
+         <p class="text-gray-300 text-sm">UI/UX Design</p>
+        </div>
+       </div>
+      </div><!-- Project 2 -->
+      <div class="project-card" onclick="openModal('project2')">
+       <div class="h-full flex items-center justify-center">
+        <svg width="60" height="60" viewbox="0 0 24 24" fill="#64748b"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
+        </svg>
+       </div>
+       <div class="project-overlay">
+        <div>
+         <h3 class="text-white font-bold text-lg">Web Development</h3>
+         <p class="text-gray-300 text-sm">HTML, CSS, JS</p>
+        </div>
+       </div>
+      </div><!-- Project 3 -->
+      <div class="project-card" onclick="openModal('project3')">
+       <div class="h-full flex items-center justify-center">
+        <svg width="60" height="60" viewbox="0 0 24 24" fill="#64748b"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+        </svg>
+       </div>
+       <div class="project-overlay">
+        <div>
+         <h3 class="text-white font-bold text-lg">AI Integration</h3>
+         <p class="text-gray-300 text-sm">Machine Learning</p>
+        </div>
+       </div>
+      </div><!-- Project 4 -->
+      <div class="project-card" onclick="openModal('project4')">
+       <div class="h-full flex items-center justify-center">
+        <svg width="60" height="60" viewbox="0 0 24 24" fill="#64748b"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" />
+        </svg>
+       </div>
+       <div class="project-overlay">
+        <div>
+         <h3 class="text-white font-bold text-lg">Network Project</h3>
+         <p class="text-gray-300 text-sm">Infrastructure</p>
+        </div>
+       </div>
+      </div><!-- Project 5 -->
+      <div class="project-card" onclick="openModal('project5')">
+       <div class="h-full flex items-center justify-center">
+        <svg width="60" height="60" viewbox="0 0 24 24" fill="#64748b"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z" />
+        </svg>
+       </div>
+       <div class="project-overlay">
+        <div>
+         <h3 class="text-white font-bold text-lg">School Project</h3>
+         <p class="text-gray-300 text-sm">Academic Work</p>
+        </div>
+       </div>
+      </div><!-- Coming Soon -->
+      <div class="project-card" style="cursor: default; opacity: 0.6;">
+       <div class="h-full flex items-center justify-center flex-col">
+        <svg width="40" height="40" viewbox="0 0 24 24" fill="#94a3b8"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+        </svg>
+        <p class="text-slate-500 mt-2 font-medium">Coming Soon</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- Modal -->
+  <div class="modal" id="projectModal" onclick="closeModal(event)">
+   <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="p-6">
+     <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold text-slate-800" id="modalTitle">Project Title</h2><button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 text-3xl">×</button>
+     </div>
+     <div class="bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl h-64 flex items-center justify-center mb-4">
+      <div id="modalIcon"></div>
+     </div>
+     <p class="text-gray-600" id="modalDescription">Project description goes here.</p>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      main_name: 'Alisastromijoyo (Randy)',
+      main_status: 'Pelajar (SMA)',
+      bio_description: 'Halo ini portofolio saya. saya alisastromijoyo atau panggilan Ali atau Randy. Murid dari SMKN 02 Bombana, saya saat ini sedang fokus belajar design dan belajar network di jurusan saya. dan saya sengaja membuat website ini dan terhubung ke kartu agar lebih interatif. website ini saya akan menampilkan skill dan tentang saya secara spesifik agar lebih kenal dekat.',
+      background_color: '#f1f5f9',
+      card_color: '#ffffff',
+      text_color: '#1e293b',
+      primary_color: '#2d5a87',
+      secondary_color: '#64748b'
+    };
+    
+    let config = { ...defaultConfig };
+    
+    const projects = {
+      project1: {
+        title: 'Design Project 1',
+        description: 'Proyek desain UI/UX yang saya kerjakan untuk pembelajaran. Menggunakan Figma dan Adobe XD untuk membuat mockup dan prototype.',
+        icon: '<svg width="80" height="80" viewBox="0 0 24 24" fill="#2d5a87"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 15h14v2H5zm0-4h14v2H5zm0-4h14v2H5z"/></svg>'
+      },
+      project2: {
+        title: 'Web Development',
+        description: 'Proyek pengembangan web menggunakan HTML, CSS, dan JavaScript. Termasuk website portfolio ini yang saya buat sendiri.',
+        icon: '<svg width="80" height="80" viewBox="0 0 24 24" fill="#2d5a87"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>'
+      },
+      project3: {
+        title: 'AI Integration',
+        description: 'Eksplorasi penggunaan AI dalam berbagai proyek. Mempelajari cara mengintegrasikan sistem AI ke dalam aplikasi.',
+        icon: '<svg width="80" height="80" viewBox="0 0 24 24" fill="#2d5a87"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>'
+      },
+      project4: {
+        title: 'Network Project',
+        description: 'Proyek jaringan komputer yang saya pelajari di jurusan saya. Meliputi konfigurasi router, switch, dan server.',
+        icon: '<svg width="80" height="80" viewBox="0 0 24 24" fill="#2d5a87"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>'
+      },
+      project5: {
+        title: 'School Project',
+        description: 'Berbagai proyek akademik yang saya kerjakan selama bersekolah di SMKN 02 Bombana.',
+        icon: '<svg width="80" height="80" viewBox="0 0 24 24" fill="#2d5a87"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>'
+      }
+    };
+    
+    function toggleMenu() {
+      document.getElementById('hamburger').classList.toggle('active');
+      document.getElementById('navMenu').classList.toggle('active');
+    }
+    
+    function navigateTo(page, section) {
+      document.getElementById('hamburger').classList.remove('active');
+      document.getElementById('navMenu').classList.remove('active');
+      
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      
+      if (page === 'home') {
+        document.getElementById('homePage').classList.add('active');
+        if (section) {
+          setTimeout(() => {
+            document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+        }
+      } else if (page === 'projects') {
+        document.getElementById('projectsPage').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+    
+    function openModal(projectId) {
+      const project = projects[projectId];
+      if (project) {
+        document.getElementById('modalTitle').textContent = project.title;
+        document.getElementById('modalDescription').textContent = project.description;
+        document.getElementById('modalIcon').innerHTML = project.icon;
+        document.getElementById('projectModal').classList.add('active');
+      }
+    }
+    
+    function closeModal(event) {
+      if (!event || event.target.id === 'projectModal') {
+        document.getElementById('projectModal').classList.remove('active');
+      }
+    }
+    
+    async function onConfigChange(newConfig) {
+      document.getElementById('mainName').textContent = newConfig.main_name || defaultConfig.main_name;
+      document.getElementById('mainStatus').textContent = newConfig.main_status || defaultConfig.main_status;
+      document.getElementById('bioDescription').textContent = newConfig.bio_description || defaultConfig.bio_description;
+      
+      document.body.style.background = `linear-gradient(135deg, ${newConfig.background_color || defaultConfig.background_color} 0%, #e2e8f0 100%)`;
+      
+      document.querySelectorAll('.card').forEach(card => {
+        card.style.backgroundColor = newConfig.card_color || defaultConfig.card_color;
+      });
+    }
+    
+    function mapToCapabilities(cfg) {
+      return {
+        recolorables: [
+          {
+            get: () => cfg.background_color || defaultConfig.background_color,
+            set: (v) => { cfg.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
+          },
+          {
+            get: () => cfg.card_color || defaultConfig.card_color,
+            set: (v) => { cfg.card_color = v; window.elementSdk.setConfig({ card_color: v }); }
+          },
+          {
+            get: () => cfg.text_color || defaultConfig.text_color,
+            set: (v) => { cfg.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
+          },
+          {
+            get: () => cfg.primary_color || defaultConfig.primary_color,
+            set: (v) => { cfg.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); }
+          },
+          {
+            get: () => cfg.secondary_color || defaultConfig.secondary_color,
+            set: (v) => { cfg.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+    
+    function mapToEditPanelValues(cfg) {
+      return new Map([
+        ['main_name', cfg.main_name || defaultConfig.main_name],
+        ['main_status', cfg.main_status || defaultConfig.main_status],
+        ['bio_description', cfg.bio_description || defaultConfig.bio_description]
+      ]);
+    }
+    
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+    
+    // Animate opening text
+    const openingText = document.getElementById('openingText');
+    const text = openingText.textContent;
+    openingText.innerHTML = '';
+    text.split('').forEach((char, i) => {
+      const span = document.createElement('span');
+      span.textContent = char === ' ' ? '\u00A0' : char;
+      span.style.animationDelay = `${0.5 + i * 0.05}s`;
+      openingText.appendChild(span);
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cd50a05073ea28e',t:'MTc3MDk5MzE4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
