@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Projects</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Poppins', sans-serif; }
+    
+    :root {
+      --bg-primary: #1a1d23;
+      --bg-secondary: #242830;
+      --bg-card: #2a2f38;
+      --text-primary: #e8eaed;
+      --text-secondary: #9aa0a8;
+      --accent: #5b7a9d;
+      --accent-hover: #6d8eb3;
+    }
+    
+    .light-theme {
+      --bg-primary: #e8ecf1;
+      --bg-secondary: #f5f7fa;
+      --bg-card: #ffffff;
+      --text-primary: #1a1d23;
+      --text-secondary: #5a6270;
+      --accent: #4a6d8c;
+      --accent-hover: #5b7a9d;
+    }
+    
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      transition: all 0.4s ease;
+    }
+    
+    .card {
+      background-color: var(--bg-card);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .light-theme .card {
+      box-shadow: 0 8px 32px rgba(91, 122, 157, 0.15);
+    }
+    
+    .btn-primary {
+      background-color: var(--accent);
+      color: #ffffff;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+      transform: scale(1.05);
+    }
+    
+    .text-secondary-custom {
+      color: var(--text-secondary);
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-color: var(--bg-secondary);
+    }
+
+    .project-item.landscape {
+      grid-column: span 2;
+    }
+
+    @media (max-width: 768px) {
+      .project-item.landscape {
+        grid-column: span 1;
+      }
+    }
+
+    .project-item-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .project-item.landscape .project-item-image {
+      height: 140px;
+    }
+
+    .project-item:hover .project-item-image {
+      transform: scale(1.1);
+    }
+
+    .project-item-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .project-item:hover .project-item-overlay {
+      opacity: 1;
+    }
+
+    .project-item-overlay-text {
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* Modal Styles */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 85vh;
+      background: var(--bg-card);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: modalSlideUp 0.3s ease;
+    }
+
+    @keyframes modalSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-image {
+      width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      background: #000;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .modal-close-btn:hover {
+      background: var(--accent-hover);
+      transform: rotate(90deg);
+    }
+
+    .modal-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--bg-secondary);
+    }
+
+    .modal-nav-btn {
+      background: var(--accent);
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .modal-nav-btn:hover:not(:disabled) {
+      background: var(--accent-hover);
+    }
+
+    .modal-nav-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .modal-counter {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .animate-card {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+  </style>
+</head>
+<body class="h-full overflow-auto">
+  <!-- Main Content -->
+  <main class="py-12 px-4">
+    <div class="max-w-6xl mx-auto">
+      <!-- Header -->
+      <div class="mb-8 animate-card opacity-0">
+        <h1 class="text-3xl font-bold mb-2">My Projects</h1>
+        <p class="text-secondary-custom">Hasil Project Saya saat ini</p>
+      </div>
+
+      <!-- Project Gallery -->
+      <div class="card rounded-2xl p-6 mb-8 animate-card opacity-0">
+        <div class="project-grid">
+
+          <!-- Gambar 1 - Portrait -->
+          <div class="project-item" data-index="0">
+            <img src="gambar1.png" alt="Project 1" class="project-item-image" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-500 to-gray-700\'><svg class=\'w-12 h-12 text-white opacity-50\' fill=\'currentColor\' viewBox=\'0 0 24 24\'><path d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'></path></svg></div>'">
+            <div class="project-item-overlay">
+              <div class="project-item-overlay-text">Lihat Detail</div>
+            </div>
+          </div>
+
+          <!-- Gambar 2 - Landscape -->
+          <div class="project-item landscape" data-index="1">
+            <img src="gambar2.png" alt="Project 2" class="project-item-image" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-500 to-gray-700\'><svg class=\'w-12 h-12 text-white opacity-50\' fill=\'currentColor\' viewBox=\'0 0 24 24\'><path d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'></path></svg></div>'">
+            <div class="project-item-overlay">
+              <div class="project-item-overlay-text">Lihat Detail</div>
+            </div>
+          </div>
+
+          <!-- Gambar 3 - Portrait -->
+          <div class="project-item" data-index="2">
+            <img src="gambar3.png" alt="Project 3" class="project-item-image" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-500 to-gray-700\'><svg class=\'w-12 h-12 text-white opacity-50\' fill=\'currentColor\' viewBox=\'0 0 24 24\'><path d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'></path></svg></div>'">
+            <div class="project-item-overlay">
+              <div class="project-item-overlay-text">Lihat Detail</div>
+            </div>
+          </div>
+
+          <!-- Gambar 4 - Portrait -->
+          <div class="project-item" data-index="3">
+            <img src="gambar4.png" alt="Project 4" class="project-item-image" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-500 to-gray-700\'><svg class=\'w-12 h-12 text-white opacity-50\' fill=\'currentColor\' viewBox=\'0 0 24 24\'><path d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'></path></svg></div>'">
+            <div class="project-item-overlay">
+              <div class="project-item-overlay-text">Lihat Detail</div>
+            </div>
+          </div>
+
+          <!-- Gambar 5 - Landscape -->
+          <div class="project-item landscape" data-index="4">
+            <img src="gambar5.png" alt="Project 5" class="project-item-image" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-500 to-gray-700\'><svg class=\'w-12 h-12 text-white opacity-50\' fill=\'currentColor\' viewBox=\'0 0 24 24\'><path d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'></path></svg></div>'">
+            <div class="project-item-overlay">
+              <div class="project-item-overlay-text">Lihat Detail</div>
+            </div>
+          </div>
+
+          <!-- Gambar 6 - Portrait -->
+          <div class="project-item" data-index="5">
+            <img src="gambar6.png" alt="Project 6" class="project-item-image" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-500 to-gray-700\'><svg class=\'w-12 h-12 text-white opacity-50\' fill=\'currentColor\' viewBox=\'0 0 24 24\'><path d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'></path></svg></div>'">
+            <div class="project-item-overlay">
+              <div class="project-item-overlay-text">Lihat Detail</div>
+            </div>
+          </div>
+
+          <!-- Gambar 7 - Portrait -->
+          <div class="project-item" data-index="6">
+            <img src="gambar7.png" alt="Project 7" class="project-item-image" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-500 to-gray-700\'><svg class=\'w-12 h-12 text-white opacity-50\' fill=\'currentColor\' viewBox=\'0 0 24 24\'><path d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'></path></svg></div>'">
+            <div class="project-item-overlay">
+              <div class="project-item-overlay-text">Lihat Detail</div>
+            </div>
+          </div>
+
+          <!-- Gambar 8 - Landscape -->
+          <div class="project-item landscape" data-index="7">
+            <img src="gambar8.png" alt="Project 8" class="project-item-image" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-500 to-gray-700\'><svg class=\'w-12 h-12 text-white opacity-50\' fill=\'currentColor\' viewBox=\'0 0 24 24\'><path d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'></path></svg></div>'">
+            <div class="project-item-overlay">
+              <div class="project-item-overlay-text">Lihat Detail</div>
+            </div>
+          </div>
+
+          <!-- Gambar 9 - Portrait -->
+          <div class="project-item" data-index="8">
+            <img src="gambar9.png" alt="Project 9" class="project-item-image" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-500 to-gray-700\'><svg class=\'w-12 h-12 text-white opacity-50\' fill=\'currentColor\' viewBox=\'0 0 24 24\'><path d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'></path></svg></div>'">
+            <div class="project-item-overlay">
+              <div class="project-item-overlay-text">Lihat Detail</div>
+            </div>
+          </div>
+
+          <!-- Gambar 10 - Portrait -->
+          <div class="project-item" data-index="9">
+            <img src="gambar10.png" alt="Project 10" class="project-item-image" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-500 to-gray-700\'><svg class=\'w-12 h-12 text-white opacity-50\' fill=\'currentColor\' viewBox=\'0 0 24 24\'><path d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'></path></svg></div>'">
+            <div class="project-item-overlay">
+              <div class="project-item-overlay-text">Lihat Detail</div>
+            </div>
+          </div>
+          <!--DISINI KODE PROJECT GAMBAR -->
+        </div>
+      </div>
+
+      <!-- Back Button -->
+      <div class="text-center animate-card opacity-0">
+        <a href="index.html" class="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Page
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-backdrop">
+    <div class="modal-content">
+      <button id="closeBtn" class="modal-close-btn">✕</button>
+      <img id="modalImage" src="" alt="Project Detail" class="modal-image">
+      <div class="modal-nav">
+        <button id="prevBtn" class="modal-nav-btn">← Previous</button>
+        <span id="counter" class="modal-counter">1 / 10</span>
+        <button id="nextBtn" class="modal-nav-btn">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const projects = [
+      { src: 'gambar1.png', alt: 'project 1' },
+      { src: 'gambar2.png', alt: 'Project 2' },
+      { src: 'gambar3.png', alt: 'Project 3' },
+      { src: 'gambar4.png', alt: 'Project 4' },
+      { src: 'gambar5.png', alt: 'Project 5' },
+      { src: 'gambar6.png', alt: 'Project 6' },
+      { src: 'gambar7.png', alt: 'Project 7' },
+      { src: 'gambar8.png', alt: 'Project 8' },
+      { src: 'gambar9.png', alt: 'Project 9' },
+      { src: 'gambar10.png', alt: 'Project 10' }
+    ];
+
+    let currentIndex = 0;
+    const modal = document.getElementById('modal');
+    const modalImage = document.getElementById('modalImage');
+    const counter = document.getElementById('counter');
+    const closeBtn = document.getElementById('closeBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // Add click listeners to all project items
+    document.querySelectorAll('.project-item').forEach(item => {
+      item.addEventListener('click', () => {
+        currentIndex = parseInt(item.dataset.index);
+        openModal();
+      });
+    });
+
+    function openModal() {
+      modal.classList.add('active');
+      updateModal();
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+    }
+
+    function updateModal() {
+      const project = projects[currentIndex];
+      modalImage.src = project.src;
+      modalImage.alt = project.alt;
+      counter.textContent = `${currentIndex + 1} / ${projects.length}`;
+      
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === projects.length - 1;
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateModal();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < projects.length - 1) {
+        currentIndex++;
+        updateModal();
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (modal.classList.contains('active')) {
+        if (e.key === 'ArrowLeft' && currentIndex > 0) {
+          currentIndex--;
+          updateModal();
+        } else if (e.key === 'ArrowRight' && currentIndex < projects.length - 1) {
+          currentIndex++;
+          updateModal();
+        } else if (e.key === 'Escape') {
+          closeModal();
+        }
+      }
+    });
+
+    // Trigger animations
+    document.querySelectorAll('.animate-card').forEach((card, index) => {
+      setTimeout(() => {
+        card.style.opacity = '1';
+      }, 100 * (index + 1));
+    });
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cfaf60622cac90b',t:'MTc3MTM5MDgyOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
