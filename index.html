@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Alisastro123</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Poppins', sans-serif; }
+    
+    .theme-light {
+      --bg-primary: #f0f2f5;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --text-primary: #1a1a2e;
+      --text-secondary: #4a4a68;
+      --accent: #5a6e8a;
+      --accent-hover: #4a5e7a;
+      --border: #d1d5db;
+      --shadow: rgba(90, 110, 138, 0.15);
+    }
+    
+    .theme-dark {
+      --bg-primary: #1a1a2e;
+      --bg-secondary: #252540;
+      --bg-card: #2d2d4a;
+      --text-primary: #f0f2f5;
+      --text-secondary: #b0b0c0;
+      --accent: #6b7fa0;
+      --accent-hover: #7b8fb0;
+      --border: #3d3d5c;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+    
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      transition: all 0.3s ease;
+    }
+    
+    .card {
+      background-color: var(--bg-card);
+      box-shadow: 0 8px 32px var(--shadow);
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px var(--shadow);
+    }
+    
+    .btn-primary {
+      background-color: var(--accent);
+      color: white;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+      transform: scale(1.02);
+    }
+    
+    .text-primary { color: var(--text-primary); background_color: transparant;}
+    .text-secondary { color: var(--text-secondary); }
+    .bg-card { background-color: var(--bg-card); }
+    .bg-secondary { background-color: var(--bg-secondary); }
+    .border-theme { border-color: var(--border); }
+    
+    .skill-circle {
+      transform: rotate(-90deg);
+    }
+    
+    .skill-progress {
+      stroke-dasharray: 283;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1s ease;
+    }
+    
+    .social-btn {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .social-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .gallery-item {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden; /* Memastikan gambar mengikuti lengkungan kotak */
+      border: none !important; /* Menghilangkan border biru */
+      background: transparent !important; /* Menghilangkan background di belakang gambar */
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Membuat gambar memenuhi kotak tanpa penyok */
+      display: block;
+      border-radius: inherit; /* Mengikuti lengkungan dari gallery-item */
+    }
+    
+    .gallery-item:hover {
+      transform: scale(1.03);
+    }
+    
+    .modal-overlay {
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+    }
+    
+    .nav-shadow {
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+    
+    .dropdown-menu {
+      background-color: var(--bg-card);
+      box-shadow: 0 8px 32px var(--shadow);
+      border: 1px solid var(--border);
+    }
+    
+    .toggle-switch {
+      transition: all 0.3s ease;
+    }
+    
+    .toggle-switch.active {
+      background-color: var(--accent);
+    }
+    
+    .toggle-switch .toggle-dot {
+      transition: all 0.3s ease;
+    }
+    
+    .toggle-switch.active .toggle-dot {
+      transform: translateX(20px);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease forwards;
+    }
+    
+    .image-placeholder {
+      background: linear-gradient(135deg, var(--accent) 0%, #4a5a7a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      text-align: center;
+      padding: 8px;
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+    }
+   
+     img:hover {
+      transform: scale(1.05); /* Gambar sedikit membesar saat disentuh */
+      transition: 0.3s ease;
+    }
+    
+    .school-slider {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .slider-btn {
+      background: rgba(0,0,0,0.5);
+      color: white;
+      transition: all 0.3s ease;
+    }
+    
+    .slider-btn:hover {
+      background: rgba(0,0,0,0.7);
+    }
+     
+        /* Pengaturan dasar ikon navbar */
+    #navbar img {
+      /* Trik 3: Memberi bayangan halus agar terlihat di background apapun */
+      filter: drop-shadow(0px 0px 1px rgba(0,0,0,0.3));
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full theme-light">
+  <div id="app-wrapper" class="min-h-full w-full overflow-auto"><!-- Navigation -->
+   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-card nav-shadow">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+     <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-lg overflow-hidden image-placeholder"><img src="icon nav.png" alt="Logo" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='ICON';">
+      </div><span id="nav-title" class="font-semibold text-lg text-primary">Portfolio</span>
+     </div>
+     <div class="relative"><button id="menu-btn" class="p-2 rounded-lg hover:bg-secondary transition-all" onclick="toggleMenu()">
+       <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+       </svg></button>
+      <div id="dropdown" class="dropdown-menu absolute right-0 top-12 w-56 rounded-xl p-3 hidden"><a href="#social" class="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary transition-all text-primary" onclick="closeMenu()">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+        </svg> Media Social </a> <a href="#projects" class="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary transition-all text-primary" onclick="closeMenu()">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg> My Project </a>
+       <div class="border-t border-theme my-2"></div>
+       <div class="flex items-center justify-between p-3"><span class="text-primary text-sm">Tema Gelap</span> <button id="theme-toggle" class="toggle-switch w-12 h-6 rounded-full bg-gray-300 relative" onclick="toggleTheme()">
+         <div class="toggle-dot w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5 shadow"></div></button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </nav>
+    
+    <!-- Main Content -->
+   <main class="pt-20 pb-12 px-4 max-w-6xl mx-auto">
+     <!-- Board 1: ID Card -->
+    <section class="card rounded-2xl p-6 md:p-8 mb-8 animate-fadeIn">
+     <div class="flex flex-col md:flex-row gap-6 items-center md:items-start">
+      <div class="w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden flex-shrink-0 image-placeholder"><img src="profile.jpg" alt="Profile" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='profile.jpg';">
+      </div>
+      <div class="flex-1 text-center md:text-left">
+       <h1 id="profile-name" class="text-2xl md:text-3xl font-bold text-primary mb-3">Ali sastromijoyo (Randy)</h1>
+       <p id="profile-title" class="text-secondary-custom font-medium mb-3">Designer, Content Creator & Network Student</p>
+        <br>
+        <p id="profile-desc" class="text-secondary leading-relaxed mb-6">Halo ini portofolio saya. saya Alisastromijoyo atau panggilan Ali atau Randy. Murid dari SMKN 02 Bombana, saya saat ini sedang fokus belajar design dan belajar network di jurusan saya. dan saya sengaja membuat website ini dan terhubung ke kartu agar lebih interatif. website ini saya akan menampilkan skill dan tentang saya secara spesifik agar lebih kenal dekat.</p>
+         
+        <div class="flex flex-wrap gap-3 justify-center md:justify-start"><a href="#social" class="btn-primary px-5 py-2.5 rounded-xl font-medium flex items-center gap-2">
+         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+         </svg> Media Social </a> <a href="#projects" class="btn-primary px-5 py-2.5 rounded-xl font-medium flex items-center gap-2">
+         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+         </svg> My Project </a>
+       </div>
+      </div>
+     </div>
+    </section>
+     
+     <!-- Board 2: School Info -->
+    <section class="card rounded-2xl p-6 md:p-8 mb-8 animate-fadeIn" style="animation-delay: 0.1s">
+     <h2 id="school-title" class="text-xl md:text-2xl font-bold text-primary mb-6">SMKN 02 Bombana</h2>
+     <div class="flex flex-col lg:flex-row gap-6">
+      <div class="flex-1">
+       <p id="school-desc" class="text-secondary leading-relaxed mb-6">Visi SMKN 02 Bombana adalah "Terwujudnya sekolah unggul yang melahirkan generasi beriman, cerdas, inovatif, dan berakhlak mulia". Misi sekolah ini meliputi meningkatkan mutu pendidikan melalui pembelajaran efektif dan inovatif, membangun karakter peserta didik yang beriman dan berakhlak mulia, meningkatkan profesionalisme guru, mewujudkan tata kelola sekolah yang efisien dan transparan, serta membangun kerjasama dengan orang tua dan masyarakat. Tujuan sekolah ini adalah untuk menciptakan generasi yang unggul dan berakhlak mulia.</p>
+       <div class="space-y-3 mb-6">
+        <div class="flex items-center gap-3 text-secondary">
+         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+         </svg><span>0813 40006666</span>
+        </div>
+        <div class="flex items-center gap-3 text-secondary">
+         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+         </svg><span>smkn02bombana@gmail.com</span>
+        </div>
+       </div><a id="school-link" href="https://www.smkn02bombana.sch.id" target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg> Visit Website </a>
+      </div>
+      <div class="lg:w-80 flex-shrink-0">
+       <div class="school-slider relative rounded-xl overflow-hidden">
+        <div id="school-images" class="relative h-48 md:h-56">
+         
+          <div class="school-slide absolute inset-0 image-placeholder cursor-pointer" onclick="openSchoolModal(0)"><img src="sekolah.png" alt="Sekolah 1" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='sekolah.png';">
+         </div>
+         
+          <div class="school-slide absolute inset-0 image-placeholder cursor-pointer hidden" onclick="openSchoolModal(1)"><img src="sekolah(2).png" alt="Sekolah 2" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='sekolah(2).png';">
+         </div>
+        </div>
+         <button class="slider-btn absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center" onclick="prevSchoolSlide()">
+         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+         </svg></button> <button class="slider-btn absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center" onclick="nextSchoolSlide()">
+         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+         </svg></button>
+        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+         <div id="dot-0" class="w-2 h-2 rounded-full bg-white"></div>
+         <div id="dot-1" class="w-2 h-2 rounded-full bg-white/50"></div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+     
+     <!-- Board 3: Skills -->
+    <section class="card rounded-2xl p-6 md:p-8 mb-8 animate-fadeIn" style="animation-delay: 0.2s">
+     <h2 class="text-xl md:text-2xl font-bold text-primary mb-6">Skills</h2>
+     <div class="flex flex-wrap justify-center gap-8 md:gap-16 mb-8"><!-- Design Skill -->
+      <div class="text-center">
+       <div class="relative w-32 h-32 md:w-40 md:h-40">
+        <svg class="skill-circle w-full h-full"><circle cx="50%" cy="50%" r="45%" fill="none" stroke="var(--border)" stroke-width="8" /> <circle class="skill-progress" cx="50%" cy="50%" r="45%" fill="none" stroke="var(--accent)" stroke-width="8" style="stroke-dashoffset: 116;" />
+        </svg>
+        <div class="absolute inset-0 flex items-center justify-center"><span class="text-2xl md:text-3xl font-bold text-primary">59%</span>
+        </div>
+       </div>
+       <p class="mt-3 font-semibold text-primary">Design</p>
+      </div>
+       
+       <!-- Coding Skill -->
+      <div class="text-center">
+       <div class="relative w-32 h-32 md:w-40 md:h-40">
+        <svg class="skill-circle w-full h-full"><circle cx="50%" cy="50%" r="45%" fill="none" stroke="var(--border)" stroke-width="8" /> <circle class="skill-progress" cx="50%" cy="50%" r="45%" fill="none" stroke="var(--accent)" stroke-width="8" style="stroke-dashoffset: 195;" />
+        </svg>
+        <div class="absolute inset-0 flex items-center justify-center"><span class="text-2xl md:text-3xl font-bold text-primary">31%</span>
+        </div>
+       </div>
+       <p class="mt-3 font-semibold text-primary">Coding</p>
+      </div>
+     </div>
+     <hr class="border-theme my-6">
+     <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+      <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl overflow-hidden image-placeholder"><img src="ibispaint.png" alt="ibispaint" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='APP 1';">
+      </div>
+      <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl overflow-hidden image-placeholder"><img src="blockbench.png" alt="blockbench" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='APP 2';">
+      </div>
+      <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl overflow-hidden image-placeholder"><img src="alight_motion.png" alt="alight_motion" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='APP 3';">
+      </div>
+      <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl overflow-hidden image-placeholder"><img src="prisma3d.png" alt="prisma3d" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='APP 4';">
+      </div>
+      <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl overflow-hidden image-placeholder"><img src="code_studio.png" alt="code_studio" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='APP 5';">
+      </div>
+     </div>
+    </section>
+     
+     <!-- Board 4: Project Gallery -->
+    <section id="projects" class="card rounded-2xl p-6 md:p-8 mb-8 animate-fadeIn" style="animation-delay: 0.3s">
+     <h2 class="text-xl md:text-2xl font-bold text-primary mb-6">My Projects</h2>
+     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div class="gallery-item aspect-square rounded-xl overflow-hidden cursor-pointer image-placeholder" onclick="openGalleryModal(0)"><img src="gambar1.png" alt="gambar 1" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='gambar1.png';">
+      </div>
+      <div class="gallery-item aspect-square rounded-xl overflow-hidden cursor-pointer image-placeholder" onclick="openGalleryModal(1)"><img src="gambar2.png" alt="gambar 2" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='gambar2.png';">
+      </div>
+      <div class="gallery-item aspect-square rounded-xl overflow-hidden cursor-pointer image-placeholder" onclick="openGalleryModal(2)"><img src="gambar3.png" alt="gambar 3" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='gambar3.png';">
+      </div>
+      <div class="gallery-item aspect-square rounded-xl overflow-hidden cursor-pointer image-placeholder" onclick="openGalleryModal(3)"><img src="gambar4.png" alt="gambar 4" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='gambar4.png';">
+      </div>
+      <div class="gallery-item aspect-square rounded-xl overflow-hidden cursor-pointer image-placeholder" onclick="openGalleryModal(4)"><img src="gambar5.png" alt="gambar 5" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='gambar5.png';">
+      </div>
+      <div class="gallery-item aspect-square rounded-xl overflow-hidden cursor-pointer image-placeholder" onclick="openGalleryModal(5)"><img src="gambar6.png" alt="gambar 6" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='gambar6.png';">
+      </div>
+     </div>
+    </section>
+     
+     <!-- Board 5: Social Media -->
+    <section id="social" class="card rounded-2xl p-6 md:p-8 animate-fadeIn" style="animation-delay: 0.4s">
+     <h2 class="text-xl md:text-2xl font-bold text-primary mb-6 text-center">Media Social</h2>
+     <div class="flex flex-wrap justify-center gap-3 md:gap-4">
+       
+       <!-- Instagram -->
+      <div class="relative group"><a href="https://www.instagram.com/alisastro123?igsh=MTZoZmR0ZGJkeWM3NA==" target="_blank" rel="noopener noreferrer" class="social-btn inline-flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-lg bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 hover:shadow-lg">
+        <svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+        </svg></a>
+       <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg bg-gray-900 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        Instagram
+       </div>
+      </div>
+       
+       <!-- Discord -->
+      <div class="relative group"><a href="https://discord.gg/8g4qrVYZ6" target="_blank" rel="noopener noreferrer" class="social-btn inline-flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-lg bg-indigo-500 hover:shadow-lg">
+        <svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" />
+        </svg></a>
+       <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg bg-gray-900 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        Discord
+       </div>
+      </div>
+       
+       <!-- GitHub -->
+      <div class="relative group"><a href="https://github.com/EnzoThane70" target="_blank" rel="noopener noreferrer" class="social-btn inline-flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-lg bg-gray-800 hover:shadow-lg">
+        <svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+        </svg></a>
+       <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg bg-gray-900 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        GitHub
+       </div>
+      </div>
+       
+       <!-- TikTok -->
+      <div class="relative group"><a href="https://www.tiktok.com/@alisastro123" target="_blank" rel="noopener noreferrer" class="social-btn inline-flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-lg bg-black hover:shadow-lg">
+        <svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
+        </svg></a>
+       <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg bg-gray-900 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        TikTok
+       </div>
+      </div>
+       
+       <!-- YouTube -->
+      <div class="relative group"><a href="https://www.youtube.com/@Alisastro123" target="_blank" rel="noopener noreferrer" class="social-btn inline-flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-lg bg-red-600 hover:shadow-lg">
+        <svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+        </svg></a>
+       <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg bg-gray-900 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        YouTube
+       </div>
+      </div>
+       
+       <!-- Facebook -->
+      <div class="relative group"><a href="https://www.facebook.com/share/187SYMM2c6/" target="_blank" rel="noopener noreferrer" class="social-btn inline-flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-lg bg-blue-600 hover:shadow-lg">
+        <svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+        </svg></a>
+       <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg bg-gray-900 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        Facebook
+       </div>
+      </div>
+       
+       <!-- WhatsApp -->
+      <div class="relative group"><a href="https://www.whatsapp.com/channel/0029Vb6ytmg8F2pIMwr2ZH1i" target="_blank" rel="noopener noreferrer" class="social-btn inline-flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-lg bg-green-500 hover:shadow-lg">
+        <svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg></a>
+       <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg bg-gray-900 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        WhatsApp
+       </div>
+      </div>
+       
+     </div>
+    </section>
+   </main>
+    
+    <!-- School Image Modal -->
+   <div id="school-modal" class="fixed inset-0 z-50 hidden">
+    <div class="modal-overlay absolute inset-0" onclick="closeSchoolModal()"></div>
+    <div class="absolute inset-4 md:inset-12 flex items-center justify-center"><button class="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-all z-10" onclick="prevSchoolModalSlide()">
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg></button>
+     <div id="school-modal-image" class="max-w-full max-h-full rounded-xl overflow-hidden image-placeholder"><img src="sekolah.png" alt="School" class="max-w-full max-h-full object-contain" onerror="this.style.display='none'; this.parentElement.style.width='400px'; this.parentElement.style.height='300px'; this.parentElement.innerHTML='sekolah.png';">
+     </div><button class="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-all z-10" onclick="nextSchoolModalSlide()">
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg></button> <button class="absolute top-2 md:top-4 right-2 md:right-4 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-all" onclick="closeSchoolModal()">
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg></button>
+    </div>
+   </div>
+    
+    <!-- Gallery Modal -->
+   <div id="gallery-modal" class="fixed inset-0 z-50 hidden">
+    <div class="modal-overlay absolute inset-0" onclick="closeGalleryModal()"></div>
+    <div class="absolute inset-4 md:inset-12 flex items-center justify-center"><button class="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-all z-10" onclick="prevGallerySlide()">
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg></button>
+     <div id="gallery-modal-image" class="max-w-full max-h-full rounded-xl overflow-hidden image-placeholder" style="width: 80%; height: 80%;"><img src="PROJECT-1.png" alt="Project" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='PROJECT-1.png';">
+     </div><button class="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-all z-10" onclick="nextGallerySlide()">
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg></button> <button class="absolute top-2 md:top-4 right-2 md:right-4 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-all" onclick="closeGalleryModal()">
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg></button>
+    </div>
+   </div>
+  </div>
+   
+   <footer class="text-center py-6 text-secondary-custom text-sm" style="background-color: var(--bg-secondary);">
+    <p>© 2026 Portofolio | @alisastro123</p>
+  </footer>
+   
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      profile_name: 'Alisastromijoyo (Randy)',
+      profile_description: 'Halo ini portofolio saya. saya alisastromijoyo atau panggilan Ali atau Randy. Murid dari SMKN 02 Bombana, saya saat ini sedang fokus belajar design dan belajar network di jurusan saya. dan saya sengaja membuat website ini dan terhubung ke kartu agar lebih interatif. website ini saya akan menampilkan skill dan tentang saya secara spesifik agar lebih kenal dekat.',
+      school_name: 'SMKN 02 Bombana',
+      school_website: 'https://www.smkn02bombana.sch.id',
+      background_color: '#f0f2f5',
+      card_color: '#ffffff',
+      text_color: '#1a1a2e',
+      accent_color: '#5a6e8a',
+      secondary_color: '#4a4a68',
+      is_dark_theme: false,
+      font_family: 'Poppins',
+      font_size: 16
+    };
+
+    let currentSchoolSlide = 0;
+    let currentGallerySlide = 0;
+    const schoolImages = ['sekolah.png', 'sekolah(2).png'];
+    const projectImages = ['gambar1.png', 'gambar2.png', 'gambar3.png', 'gambar4.png', 'gambar5.png', 'gambar6.png'];
+
+    // Theme toggle
+    function toggleTheme() {
+      const body = document.body;
+      const toggle = document.getElementById('theme-toggle');
+      const isDark = body.classList.contains('theme-dark');
+      
+      if (isDark) {
+        body.classList.remove('theme-dark');
+        body.classList.add('theme-light');
+        toggle.classList.remove('active');
+      } else {
+        body.classList.remove('theme-light');
+        body.classList.add('theme-dark');
+        toggle.classList.add('active');
+      }
+      
+      if (window.elementSdk) {
+        window.elementSdk.setConfig({ is_dark_theme: !isDark });
+      }
+    }
+
+    // Menu toggle
+    function toggleMenu() {
+      const dropdown = document.getElementById('dropdown');
+      dropdown.classList.toggle('hidden');
+    }
+
+    function closeMenu() {
+      const dropdown = document.getElementById('dropdown');
+      dropdown.classList.add('hidden');
+    }
+
+    // School slider
+    function updateSchoolSlider() {
+      const slides = document.querySelectorAll('.school-slide');
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('hidden', index !== currentSchoolSlide);
+      });
+      document.getElementById('dot-0').classList.toggle('bg-white/50', currentSchoolSlide !== 0);
+      document.getElementById('dot-1').classList.toggle('bg-white/50', currentSchoolSlide !== 1);
+      document.getElementById('dot-0').classList.toggle('bg-white', currentSchoolSlide === 0);
+      document.getElementById('dot-1').classList.toggle('bg-white', currentSchoolSlide === 1);
+    }
+
+    function nextSchoolSlide() {
+      currentSchoolSlide = (currentSchoolSlide + 1) % schoolImages.length;
+      updateSchoolSlider();
+    }
+
+    function prevSchoolSlide() {
+      currentSchoolSlide = (currentSchoolSlide - 1 + schoolImages.length) % schoolImages.length;
+      updateSchoolSlider();
+    }
+
+    // School modal
+    function openSchoolModal(index) {
+      currentSchoolSlide = index;
+      const modal = document.getElementById('school-modal');
+      const modalImg = document.getElementById('school-modal-image');
+      modalImg.innerHTML = `<img src="${schoolImages[index]}" alt="School" class="max-w-full max-h-full object-contain" onerror="this.style.display='none'; this.parentElement.style.width='400px'; this.parentElement.style.height='300px'; this.parentElement.innerHTML='${schoolImages[index]}';">`;
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSchoolModal() {
+      document.getElementById('school-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function nextSchoolModalSlide() {
+      currentSchoolSlide = (currentSchoolSlide + 1) % schoolImages.length;
+      const modalImg = document.getElementById('school-modal-image');
+      modalImg.innerHTML = `<img src="${schoolImages[currentSchoolSlide]}" alt="School" class="max-w-full max-h-full object-contain" onerror="this.style.display='none'; this.parentElement.style.width='400px'; this.parentElement.style.height='300px'; this.parentElement.innerHTML='${schoolImages[currentSchoolSlide]}';">`;
+    }
+
+    function prevSchoolModalSlide() {
+      currentSchoolSlide = (currentSchoolSlide - 1 + schoolImages.length) % schoolImages.length;
+      const modalImg = document.getElementById('school-modal-image');
+      modalImg.innerHTML = `<img src="${schoolImages[currentSchoolSlide]}" alt="School" class="max-w-full max-h-full object-contain" onerror="this.style.display='none'; this.parentElement.style.width='400px'; this.parentElement.style.height='300px'; this.parentElement.innerHTML='${schoolImages[currentSchoolSlide]}';">`;
+    }
+
+    // Gallery modal
+    function openGalleryModal(index) {
+      currentGallerySlide = index;
+      const modal = document.getElementById('gallery-modal');
+      const modalImg = document.getElementById('gallery-modal-image');
+      modalImg.innerHTML = `<img src="${projectImages[index]}" alt="Project" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='${projectImages[index]}';">`;
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeGalleryModal() {
+      document.getElementById('gallery-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function nextGallerySlide() {
+      currentGallerySlide = (currentGallerySlide + 1) % projectImages.length;
+      const modalImg = document.getElementById('gallery-modal-image');
+      modalImg.innerHTML = `<img src="${projectImages[currentGallerySlide]}" alt="Project" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='${projectImages[currentGallerySlide]}';">`;
+    }
+
+    function prevGallerySlide() {
+      currentGallerySlide = (currentGallerySlide - 1 + projectImages.length) % projectImages.length;
+      const modalImg = document.getElementById('gallery-modal-image');
+      modalImg.innerHTML = `<img src="${projectImages[currentGallerySlide]}" alt="Project" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='${projectImages[currentGallerySlide]}';">`;
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      const menuBtn = document.getElementById('menu-btn');
+      const dropdown = document.getElementById('dropdown');
+      if (!menuBtn.contains(e.target) && !dropdown.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    // Keyboard navigation for modals
+    document.addEventListener('keydown', (e) => {
+      const schoolModal = document.getElementById('school-modal');
+      const galleryModal = document.getElementById('gallery-modal');
+      
+      if (!schoolModal.classList.contains('hidden')) {
+        if (e.key === 'ArrowLeft') prevSchoolModalSlide();
+        if (e.key === 'ArrowRight') nextSchoolModalSlide();
+        if (e.key === 'Escape') closeSchoolModal();
+      }
+      
+      if (!galleryModal.classList.contains('hidden')) {
+        if (e.key === 'ArrowLeft') prevGallerySlide();
+        if (e.key === 'ArrowRight') nextGallerySlide();
+        if (e.key === 'Escape') closeGalleryModal();
+      }
+    });
+
+    // Element SDK initialization
+    async function onConfigChange(config) {
+      const profileName = document.getElementById('profile-name');
+      const profileDesc = document.getElementById('profile-desc');
+      const schoolTitle = document.getElementById('school-title');
+      const schoolLink = document.getElementById('school-link');
+      
+      if (profileName) profileName.textContent = config.profile_name || defaultConfig.profile_name;
+      if (profileDesc) profileDesc.textContent = config.profile_description || defaultConfig.profile_description;
+      if (schoolTitle) schoolTitle.textContent = config.school_name || defaultConfig.school_name;
+      if (schoolLink) schoolLink.href = config.school_website || defaultConfig.school_website;
+      
+      // Apply theme
+      const body = document.body;
+      const toggle = document.getElementById('theme-toggle');
+      if (config.is_dark_theme) {
+        body.classList.remove('theme-light');
+        body.classList.add('theme-dark');
+        if (toggle) toggle.classList.add('active');
+      } else {
+        body.classList.remove('theme-dark');
+        body.classList.add('theme-light');
+        if (toggle) toggle.classList.remove('active');
+      }
+      
+      // Apply font
+      if (config.font_family) {
+        document.body.style.fontFamily = `${config.font_family}, Poppins, sans-serif`;
+      }
+      
+      // Apply font size
+      if (config.font_size) {
+        document.body.style.fontSize = `${config.font_size}px`;
+      }
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => { config.background_color = value; window.elementSdk.setConfig({ background_color: value }); }
+          },
+          {
+            get: () => config.card_color || defaultConfig.card_color,
+            set: (value) => { config.card_color = value; window.elementSdk.setConfig({ card_color: value }); }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => { config.text_color = value; window.elementSdk.setConfig({ text_color: value }); }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => { config.accent_color = value; window.elementSdk.setConfig({ accent_color: value }); }
+          },
+          {
+            get: () => config.secondary_color || defaultConfig.secondary_color,
+            set: (value) => { config.secondary_color = value; window.elementSdk.setConfig({ secondary_color: value }); }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => { config.font_family = value; window.elementSdk.setConfig({ font_family: value }); }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => { config.font_size = value; window.elementSdk.setConfig({ font_size: value }); }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['profile_name', config.profile_name || defaultConfig.profile_name],
+        ['profile_description', config.profile_description || defaultConfig.profile_description],
+        ['school_name', config.school_name || defaultConfig.school_name],
+        ['school_website', config.school_website || defaultConfig.school_website]
+      ]);
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d0753c29084f88e',t:'MTc3MTUyMDQ5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
